@@ -9,5 +9,18 @@ RepEnrich runs differently, first it needs a pseudo genome for repeated elements
 
 Two pseudo genomes were used for RepEnrich, first the default hg38 (https://github.com/nskvir/RepEnrich), and second a "hacked" version. These last pseudogenome each HML2 locus was considered a repeated element. 
 
-Results are shown 
+Results:
 
+![Unique counts](results/Unique_counts.tiff?raw=true "Title")
+
+![Best counts](results/Best_counts.tiff?raw=true "Title")
+
+![TEtranscripts counts](results/TEtranscripts_counts.tiff?raw=true "Title")
+
+![Telescope counts](results/Telescope_counts.tiff?raw=true "Title")
+
+![RepEnric counts](results/RepEnrich_counts.tiff?raw=true "Title")
+
+![Presicion and Recall](results/Presicion_Recall.tiff?raw=true "Title")
+
+![F1 score density](results/F1_score_density.tiff?raw=true "Title")
