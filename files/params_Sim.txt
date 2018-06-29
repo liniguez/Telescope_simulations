@@ -1,0 +1,10 @@
+outdir	HML2_SIM
+fraglen	250
+fragsd	25
+readlen	75
+error_model	illumina5
+error_rate	0.005
+paired	true
+seed	123456
+total_reads	1650
+num_reps	5
