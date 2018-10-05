@@ -121,7 +121,7 @@ for (i in 1:25){
 presicion<-colSums(vp)/(colSums(vp)+colSums(fp))
 recall<-colSums(vp)/(colSums(vp)+colSums(fn))
 
-tiff("Presicion_Recall.tiff", res=300, width=960, height=960, pointsize=7)
+tiff("Presicion_Recall2.tiff", res=300, width=960, height=960, pointsize=7)
 plot(recall_samp, presicion_samp,xlim=c(0,1),ylim=c(0,1), ylab="Presicion",xlab="Recall", pch=18,cex=1,
      col=c(rep(rgb(0,0,1,alpha=0.50),25),
            rep(rgb(0,1,0,alpha=0.50),25),
@@ -141,11 +141,31 @@ dev.off()
 F1_score2<-cbind(as.vector(F1_score),c(rep(rgb(0,0,1),25),rep(rgb(0,1,0),25),rep(rgb(1,0.4,0),25),rep(rgb(1,0,1),25),rep(rgb(0,1,1),25),rep(rgb(0.5,0.16,0.88),25),rep(rgb(1,0.07,0.5),25)))
 F1_score3<-F1_score2[order(F1_score2[,1]),]
 
-tiff("F1_score.tiff", res=300, width=960, height=960, pointsize=7)
+tiff("F1_score2.tiff", res=300, width=960, height=960, pointsize=7)
 barplot(as.numeric(F1_score3[,1]), col=F1_score3[,2],border = NA, ylab="F1 score")
 legend("bottom",legend = c("Best", "Unique", "RepEnrich", "Telescope", "TEtranscripts","RSEM","SalmonTE"),
        col = c(rgb(0,0,1), rgb(0,1,0),rgb(1,0.4,0),rgb(1,0,1),rgb(0,1,1),rgb(0.5,0.16,0.88),rgb(1,0.07,0.5)),pch=15,pt.cex=1.5,bty = "n", xpd = TRUE,ncol=2, inset = c(0,-0.25),cex=1)
 dev.off()
 
+density_data<-apply(F1_score,2,density)
+ymin<-min(density_data[[1]]$y,density_data[[2]]$y,density_data[[3]]$y,density_data[[4]]$y,density_data[[5]]$y,density_data[[6]]$y,density_data[[7]]$y)
+ymax<-max(density_data[[1]]$y,density_data[[2]]$y,density_data[[3]]$y,density_data[[4]]$y,density_data[[5]]$y,density_data[[6]]$y,density_data[[7]]$y)
 
-
+tiff("F1_score_density2.tiff", res=300, width=960, height=960, pointsize=7)
+plot(density_data[[1]], col=rgb(0,0,1),ylim=c(ymin,ymax),xlim=c(0,1.1),main="F1 score")
+polygon(density_data[[1]],col=rgb(0,0,1,alpha = 0.5), border=NA)
+lines(density_data[[2]],col=rgb(0,1,0))
+polygon(density_data[[2]],col=rgb(0,1,0,alpha = 0.5), border=NA)
+lines(density_data[[3]],col=rgb(1,0.4,0))
+polygon(density_data[[3]],col=rgb(1,0.4,0,alpha = 0.5), border=NA)
+lines(density_data[[4]],col=rgb(1,0,1))
+polygon(density_data[[4]],col=rgb(1,0,1,alpha = 0.5), border=NA)
+lines(density_data[[5]],col=rgb(0,1,1))
+polygon(density_data[[5]],col=rgb(0,1,1,alpha = 0.5), border=NA)
+lines(density_data[[6]],col=rgb(0.5,0.16,0.88))
+polygon(density_data[[6]],col=rgb(0.5,0.16,0.88,alpha = 0.5), border=NA)
+lines(density_data[[7]],col=rgb(1,0.07,0.5))
+polygon(density_data[[7]],col=rgb(1,0.07,0.5,alpha = 0.5), border=NA)
+legend("topleft",legend = c("Best", "Unique", "RepEnrich", "Telescope", "TEtranscripts","RSEM","SalmonTE"),
+       col = c(rgb(0,0,1), rgb(0,1,0),rgb(1,0.4,0),rgb(1,0,1),rgb(0,1,1),rgb(0.5,0.16,0.88),rgb(1,0.07,0.5)),pch=15,pt.cex=1.5,bty = "n",cex=1)
+dev.off()
