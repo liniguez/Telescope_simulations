@@ -1,3 +1,12 @@
+# Statistical Performance of TE Quantification Methods
+
+All scripts needed to examine the sensitivity and biases of computational approaches for quantifying TE expression: 1) unique counts, 2) best counts, 3) [RepEnrich](https://github.com/nerettilab/RepEnrich2), 4) [TEtranscripts](http://hammelllab.labsites.cshl.edu/software/), 5) [RSEM](http://deweylab.github.io/RSEM/), 6) [SalmonTE](https://github.com/LiuzLab/SalmonTE), and 7) [Telescope](https://github.com/mlbendall/telescope)
+
+* [Data Bases](DB_creation.md)
+* [Simulations](Simulations.md)
+* [Runing Software](Software.md)
+* [Counting and Plots](Count_Plots.md)
+
 # Telescope_simulations
 
 In order to prove Telescope, we simulate the expression of ten randomly choosen HML2. The level of expression of those HERV's started at 30 counts and increased by 30 read counts up to 300, the expression level was also randomly asignated. Paired-end reads were generated with POLYESTER bioconductor package. (script for generating reads: get_fastq_sim.R)
