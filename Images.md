@@ -15,11 +15,13 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocMana
 if (!requireNamespace("ggplot2", quietly = TRUE,warn.conflicts=F)) BiocManager::install("ggplot2", version = "3.8")
 if (!requireNamespace("cowplot", quietly = TRUE,warn.conflicts=F)) BiocManager::install("cowplot", version = "3.8")
 if (!requireNamespace("RColorBrewer", quietly = TRUE,warn.conflicts=F)) BiocManager::install("RColorBrewer", version = "3.8")
+if (!requireNamespace("ggsignif", quietly = TRUE,warn.conflicts=F)) BiocManager::install("ggsignif", version = "3.8")
 ```
 
 ``` r
 library(ggplot2)
 library(cowplot)
+library(ggsignif)
 library("RColorBrewer")
 
 
@@ -176,6 +178,12 @@ f1
 ```
 
 ![](Images_files/figure-markdown_github/fig4-1.png)
+
+The most similar results are Telescope and SalmonTE. Telescope present a higher precision and a F1 score while SalmonTE has a better recall.
+
+![](Images_files/figure-markdown_github/f1com-1.png)
+
+Each point represent a simulation and since the same simulation fastq file was used as input for the counting method the samples are paired, represented with a line. Wilcoxon paired test was performd and p-values are shown over the line.
 
 The paper plot:
 
