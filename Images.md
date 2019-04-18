@@ -33,19 +33,16 @@ data$cathegorie<-factor(data$cathegorie,levels=c("Not HERV/\nNot Mapped","Other 
 
 colorp<-brewer.pal(n = 7, name = "Dark2")
 
-tem<- theme( text = element_text(size=10),
-              legend.text=element_text(size=7),
+tem<- theme(  text = element_text(size=10),
               panel.grid.major = element_line(colour = "gray80"),
               panel.border = element_blank(),
-              axis.text.x = element_text(angle=45,hjust = 1,lineheight = 0.7),
-              #strip.text.x = element_text(angle = 0),
-              #axis.ticks = element_blank(),
-              #axis.title.x=element_blank(),
-              #axis.text.x=element_blank(),
+              axis.text.x = element_text(angle=45,hjust = 1,lineheight = 0.7,size = 6),
+              axis.text.y = element_text(size = 6, margin=margin(l=0)),
+              axis.title.y = element_text(size = 6, margin=margin(l=0,r=0)),
               panel.grid.minor.x=element_blank(),
               panel.grid.major.x=element_blank(),
-              strip.text.x = element_text(size=7),
               strip.text.y = element_text(size=7),
+              strip.text.x = element_text(size=7),
               plot.margin=margin(l=0,unit="cm", b=0,r=0),
               strip.background = element_rect(colour="white",fill="gray80"),
               legend.position="bottom")
@@ -53,7 +50,7 @@ tem<- theme( text = element_text(size=10),
 plot_box_sim<-function(data2plot,x2plot,y2plot,title,color2plot,tem2plot=tem,limit){
   res<-ggplot(data=data2plot,mapping= aes_string(y=y2plot,x=x2plot))+
     geom_boxplot(outlier.shape = NA, fill=color2plot, alpha=0.5)+ggtitle(title)+
-    geom_jitter(shape=16, position=position_jitter(0.25), colour= "black", alpha=0.75)+
+    geom_jitter(shape=16, position=position_jitter(0.25), colour= "black", alpha=0.5)+
     geom_segment(aes(x=2,y=0,xend=12.5,yend=315),colour=rgb(1,0,0),linetype="dashed",size=1.1)+
     geom_segment(aes(x=0.5,y=limit,xend=1.5,yend=limit),colour=rgb(1,0,0),linetype="dashed",size=1.1)+
     ylab("Read Count")+ xlab("")+theme_bw()+tem2plot
@@ -144,15 +141,21 @@ forplt2<-data.frame(Presicion=presicion$Presicion,
                     Counting=factor(presicion$Counting))
 
 pres<-ggplot(data=forplt,aes(x=Recall,y=Presicion, colour=Counting))+
-  geom_point(alpha=0.75)+
+  geom_point(alpha=0.5, size=1.5)+
   scale_color_manual(values=colorp)+
-  geom_point(data=forplt2,aes(x=Recall,y=Presicion),shape=8, size=8)+
-  guides(col=guide_legend(nrow=2, byrow = T))+
-  theme(legend.position = "bottom",
+  geom_point(data=forplt2,aes(x=Recall,y=Presicion),shape=8, size=4,show.legend=FALSE)+
+  guides(colour=guide_legend(nrow=2, byrow = T ,override.aes = list(size=2, shape=8)))+
+  theme(text = element_text(size=7),
+        legend.position = "bottom",
         legend.title = element_blank(),
-        plot.margin=margin(l=0,unit="cm", b=0,r=0),
+        legend.spacing.y = unit(0.1, 'mm'),
+        legend.box.margin=margin(t=-10),
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7),
+        plot.margin=margin(l=0,unit="cm", b=0,r=0, t=0),
+        legend.key.height = unit(0, units = "mm"),
+        legend.key.width = unit(0, units = "mm"),
         strip.text.x = element_blank(),
-        legend.spacing.x = unit(0.005,"native"),
         legend.margin = margin(t=0,r=0,b=0,l=0))
 pres
 ```
@@ -160,20 +163,25 @@ pres
 ![](Images_files/figure-markdown_github/fig3-1.png)
 
 ``` r
-levels(F1_score$Counting)<-c("Best", "Unique", "RepEnrich", "Telescope", "TEtranscripts", "RSEM","SalmonTE")
+levels(F1_score$Counting)<-c("Best Random", "Unique", "RepEnrich", "Telescope", "TEtranscripts", "RSEM","SalmonTE")
 f1<-ggplot(F1_score, aes(x=F1, color=Counting, fill=Counting))+
   geom_density()+
   scale_color_manual(values=colorp)+
   scale_fill_manual(values=alpha(colorp,0.5))+
   xlab("F1 score")+
-  theme(legend.position = "bottom",
+  guides(colour=guide_legend(nrow=2, byrow = T, keywidth = 0.5, keyheight = 0.5))+
+  theme(text = element_text(size=7),
+        legend.position = "bottom",
+        legend.justific ="center",
+        legend.box.margin=margin(t=-10),
         legend.title = element_blank(),
-        #legend=guide_legend(nrow = 2),
         strip.text.x = element_blank(),
-        legend.spacing.x = unit(0.005,"npc"),
-        plot.margin=margin(l=0,unit="cm", b=0,r=0),
-        axis.text.x = element_text(angle=45,hjust = 1))+
-  guides(col=guide_legend(nrow=2, byrow = T, keywidth = 1), size=2)
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7),
+        legend.spacing.y = unit(0.1, 'mm'),
+        plot.margin=margin(l=0,unit="cm", b=0,r=0,t=0),
+        legend.margin = margin(t=0,r=0,b=0,l=0))
+  
 f1
 ```
 
@@ -183,12 +191,13 @@ The most similar results are Telescope and SalmonTE. Telescope present a higher 
 
 ![](Images_files/figure-markdown_github/f1com-1.png)
 
-Each point represent a simulation and since the same simulation fastq file was used as input for the counting method the samples are paired, represented with a line. Wilcoxon paired test was performd and p-values are shown over the line.
+Each point represent a simulation and since the same simulation fastq file was used as input for the counting method the samples are paired, represented with a line. Wilcoxon paired test was performed and p-values are shown over the line.
 
 The paper plot:
 
 ``` r
-plot_grid(puniq,pbest,pRepEn,pTEt,pREM,pSalm,pTele,pres,f1, labels="AUTO", nrow = 3)
+paper<-plot_grid(puniq,pbest,pRepEn,pTEt,pREM,pSalm,pTele,pres,f1, labels="AUTO", nrow = 3 )
+paper
 ```
 
 ![](Images_files/figure-markdown_github/paper-1.png)
