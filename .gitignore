@@ -4,3 +4,6 @@ allSim_numbers.txt
 DB_creation.Rmd
 Simulations.Rmd
 Software.Rmd
+files/HML2.gtf
+files/params_Sim.txt
+files/transcripts_MB_hg38.gtf
