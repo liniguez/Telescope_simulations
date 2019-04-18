@@ -2,3 +2,4 @@ testing_SalmonTE
 table_nonredundanthits_stranded.txt
 allSim_numbers.txt
 DB_creation.Rmd
+Simulations.Rmd
