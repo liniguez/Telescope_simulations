@@ -76,12 +76,12 @@ telescope assign --outdir ${SAMP}/ --reassign_mode exclude ${SAMP}/k100.bam tran
 conda deactivate
 ```
 
-###### Note
+###### Note:
 
 All samples could be run at once with a for:
 
 ``` bash
-for i in $(ls -d HML2_SIM*)
+for i in $(ls -d HML2_SIM *)
 do
 SAMP=$i
 
