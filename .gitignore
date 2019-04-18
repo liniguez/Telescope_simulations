@@ -9,3 +9,4 @@ files/params_Sim.txt
 files/transcripts_MB_hg38.gtf
 regions_with_multiple_mapped_reads_stranded*
 .DS_Store
+Counting.Rmd
