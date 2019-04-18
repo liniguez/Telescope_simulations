@@ -5,7 +5,7 @@ Luis P Iniguez
 
 Telescope aligns fragments to the reference genome and implements a Bayesian statistical model for reassigning ambiguous fragments.This approach directly addresses uncertainty in fragment assignment by reassigning ambiguously mapped fragments to the most probable source transcript as determined within a Bayesian statistical model. The source transcript could be part of the annotated segments or other genomic region, not annotated. Reads that originate from non-TE regions were included to test whether methods can correctly identify reads that are not part of the annotated transcriptome and classify them as such.
 
-All possible 75 bp reads from all HML2 loci were exctracted and mapped to the whole genome for the identification of non-TE regions. Bowtie2 was runed with the -a parameter which gives all the possible sites a read can map.
+All possible 75 bp reads from all HML2 loci were extracted and mapped to the whole genome for the identification of non-TE regions. Bowtie2 was ran with the -a parameter which gives all the possible sites a read can map.
 
 ``` bash
 #Get fasta transcripts
@@ -27,7 +27,7 @@ perl -e '{open(IN,"$ARGV[0]"); $flag=0;$k=0;
 bowtie2 -x /home/ubuntu/references/bowtie2/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.bowtie_index -U all_possible_reads_HML2_75.fa -S all75reads_mapped_all.sam --very-sensitive -f -a -p $(nproc)
 ```
 
-Genome coverage was calculated, once all possible mapping sites were identified, form regions outside HERV loci. If a genomic region presents coverage it means that this region present sequence similary to HML2 transcripts.
+Genome coverage was calculated, once all possible mapping sites were identified, form regions outside HERV loci. If a genomic region presents coverage it means that this region present sequence similarly to HML2 transcripts.
 
 ``` bash
 #Get bed file from the annotations
@@ -77,7 +77,7 @@ Non-TE regions with at least one read that mapped to half of the HML2 loci were 
 
 Non-TE regions longer than 500 bp were selected.
 
-Heatmap of 75 bp read mapped to region (row) and a HML2 (column), vlaues are log10 transformed.
+Heatmap of 75 bp read mapped to region (row) and a HML2 (column), values are log10 transformed.
 
 ![](Simulations_files/figure-markdown_github/Heat-1.png)
 

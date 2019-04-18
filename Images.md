@@ -73,16 +73,16 @@ plot_grid(puniq,pbest,pRepEn,pTEt,pREM,pSalm,pTele,  nrow = 2)
 
 ![](Images_files/figure-markdown_github/fig1-1.png)
 
-All reads can be devided in two cathegories, depending from where they come from, HML2 reads or non-TE reads. Those reads can then be correctly or incorrectly mapped,dependig of the outcome of the counting method, leading to 4 different cathegories: a) reads map to HML2 correcty (True Positive) b) reads map to HML2 incorrecty (False Positive) c) reads not mapped correctly (True Negative) d) reads not mapped incorrectly (False Negative)
+All reads can be divided in two categories, depending from where they come from, HML2 reads or non-TE reads. Those reads can then be correctly or incorrectly mapped,depending of the outcome of the counting method, leading to 4 different categories: a) reads map to HML2 correctly (True Positive) b) reads map to HML2 incorrectly (False Positive) c) reads not mapped correctly (True Negative) d) reads not mapped incorrectly (False Negative)
 
-It is worh to mention that all the assumtions were made based on the counted reads and not on the proper mapping, since the majority of the algorithms tested provide only the count and not the mapping file.
+It is worth to mention that all the assumptions were made based on the counted reads and not on the proper mapping, since the majority of the algorithms tested provide only the count and not the mapping file.
 
 ``` r
 data2est<-data[-grep("__no_feature",data$locus),] #all information to mapped to any HERV
 dataNOMA<-data[grep("__no_feature",data$locus),colnames(data)[2:9]] #all information of non-mapped reads
 
-mcor<-matrix(ncol=8, nrow=length(data2est$best_counts)) #map correclty
-mincor<-matrix(ncol=8, nrow=length(data2est$best_counts)) #map incorreclty
+mcor<-matrix(ncol=8, nrow=length(data2est$best_counts)) #map correctly
+mincor<-matrix(ncol=8, nrow=length(data2est$best_counts)) #map incorrectly
 logunma<-matrix(ncol = 8,nrow = 25) #logical more unmapped than simulated
 
 x<-colnames(data)[-1]

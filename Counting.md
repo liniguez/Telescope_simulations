@@ -3,7 +3,7 @@ Counting HML2
 Luis P Iniguez
 4/15/2019
 
-After running all TE counting algortihms the HML2 count was pulled as following:
+After running all TE counting algorithms the HML2 count was pulled as following:
 
 Best and unique count were calculated with htseq-count. For best count, default parameters from bowtie2 were used. In contrast, for unique reads an additional step of cleaning multiple mapped reads out of the bam from -k 100 was needed and then the cleaned sam file was used as the input for htseq-count.
 
@@ -28,7 +28,7 @@ rm ${SAMP}/temp_reads.txt
 done
 ```
 
-The rest of the softwares had their unique output and in order to put everything together this was performed:
+The rest of the software's had their unique output and in order to put everything together this was performed:
 
 ``` r
 for (i in grep(list.dirs(recursive = F), pattern="HML2_", value=T)){
