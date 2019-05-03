@@ -5,7 +5,7 @@ All scripts needed to examine the sensitivity and biases of computational approa
 * [Data Bases](DB_creation.md)
 * [Simulations](Simulations.md)
 * [Software](Software.md)
-* [Counting](Count_Plots.md)
+* [Counting](Counting.md)
 * [Plots](Images.md)
 
 ### Telescope simulations
