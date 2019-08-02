@@ -27,9 +27,9 @@ library("RColorBrewer")
 
 data<-read.table("allSim_numbers.txt", skip=1, col.names = c("locus","best_counts","uni_counts","repenrich_counts","telescope","tetr_counts","RSEM","SalmonTE","real"))
 data<-cbind(data,cathegorie=data$real)
-data$cathegorie[data$locus=="__no_feature"]<-"Not HERV/\nNot Mapped"
-data$cathegorie[data$locus=="Others"]<-"Other HERV"
-data$cathegorie<-factor(data$cathegorie,levels=c("Not HERV/\nNot Mapped","Other HERV",as.character(seq(from=30,to=300,by=30))))
+data$cathegorie[data$locus=="__no_feature"]<-"Unassigned"
+data$cathegorie[data$locus=="Others"]<-"Other"
+data$cathegorie<-factor(data$cathegorie,levels=c("Unassigned","Other",as.character(seq(from=30,to=300,by=30))))
 
 colorp<-brewer.pal(n = 7, name = "Dark2")
 
@@ -59,8 +59,8 @@ plot_box_sim<-function(data2plot,x2plot,y2plot,title,color2plot,tem2plot=tem,lim
 ```
 
 ``` r
-pbest<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="best_counts", title="Best Random",color2plot=colorp[1],limit=data$real[data$locus=="__no_feature"][1])
-puniq<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="uni_counts", title="Unique",color2plot=colorp[2],limit=data$real[data$locus=="__no_feature"][1])
+pbest<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="best_counts", title="Best Counts",color2plot=colorp[1],limit=data$real[data$locus=="__no_feature"][1])
+puniq<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="uni_counts", title="Unique Counts",color2plot=colorp[2],limit=data$real[data$locus=="__no_feature"][1])
 pRepEn<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="repenrich_counts", title="RepEnrich",color2plot=colorp[3],limit=data$real[data$locus=="__no_feature"][1])
 pTele<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="telescope", title="Telescope",color2plot=colorp[4],limit=data$real[data$locus=="__no_feature"][1])
 pTEt<-plot_box_sim(data2plot=data,x2plot="cathegorie",y2plot="tetr_counts", title="TEtranscripts",color2plot=colorp[5],limit=data$real[data$locus=="__no_feature"][1])
@@ -163,7 +163,7 @@ pres
 ![](Images_files/figure-markdown_github/fig3-1.png)
 
 ``` r
-levels(F1_score$Counting)<-c("Best Random", "Unique", "RepEnrich", "Telescope", "TEtranscripts", "RSEM","SalmonTE")
+levels(F1_score$Counting)<-c("Best Counts", "Unique Counts", "RepEnrich", "Telescope", "TEtranscripts", "RSEM","SalmonTE")
 f1<-ggplot(F1_score, aes(x=F1, color=Counting, fill=Counting))+
   geom_density()+
   scale_color_manual(values=colorp)+
