@@ -23,6 +23,7 @@ library(ggplot2)
 library(cowplot)
 library(ggsignif)
 library("RColorBrewer")
+library(knitr)
 
 
 data<-read.table("allSim_numbers.txt", skip=1, col.names = c("locus","best_counts","uni_counts","repenrich_counts","telescope","tetr_counts","RSEM","SalmonTE","real"))
@@ -71,6 +72,60 @@ plot_grid(puniq,pbest,pRepEn,pTEt,pREM,pSalm,pTele,  nrow = 2)
 ```
 
 ![](Images_files/figure-markdown_github/fig1-1.png)
+
+In terms of percentage, unassinged reads were expected to be
+
+    ## [1] "21.43 %"
+
+Nevertheless, the different algorithms tested show different distributions:
+
+``` r
+per_unassigned<-(data[grep(data$locus,pattern = '__no_feature'),2:8]/2100*100)
+colnames(per_unassigned)<-c("Best Counts","Unique Counts","RepEnrich","Telescope","TEtranscript","RSEM","SalmonTE")
+per_unassigned_plot<-stack(as.data.frame(per_unassigned))
+ggplot(data = per_unassigned_plot, aes(x=ind,y=values, fill=ind) )+
+  geom_boxplot()+ggtitle("Unassinged Reads")+
+  scale_fill_manual(values = colorp)+
+  ylab("Percentage")+
+  theme(legend.position="none",axis.text.x = element_text(angle=45,hjust = 1,lineheight = 0.7),axis.title.x=element_blank())
+```
+
+![](Images_files/figure-markdown_github/per1-1.png)
+
+|               |    Min|  1st Qu|  Median|     Mean|  3rd Qu|    Max|
+|---------------|------:|-------:|-------:|--------:|-------:|------:|
+| Best Counts   |  20.95|   21.86|   22.48|  22.5160|   22.86|  25.14|
+| Unique Counts |  54.38|   67.81|   70.57|  71.4436|   76.24|  90.24|
+| RepEnrich     |  32.33|   37.05|   38.76|  40.0608|   42.90|  48.76|
+| Telescope     |  20.38|   21.57|   22.14|  22.3956|   23.24|  25.52|
+| TEtranscript  |   5.81|   13.76|   17.57|  16.7068|   20.43|  23.52|
+| RSEM          |   5.29|   10.33|   13.14|  12.3156|   14.14|  16.81|
+| SalmonTE      |  14.76|   15.48|   16.38|  16.6956|   18.14|  19.43|
+
+Another aspect to evaluete are the reads mapped to "Other" HML2 locus, which are loci with 0 read counts. The distribution in terms of percentage of reads mapped to other loci looks like this:
+
+``` r
+per_other<-(data[grep(data$locus,pattern = 'Others'),2:8]/2100*100)
+colnames(per_other)<-c("Best Counts","Unique Counts","RepEnrich","Telescope","TEtranscript","RSEM","SalmonTE")
+per_other_plot<-stack(as.data.frame(per_other))
+ggplot(data = per_other_plot, aes(x=ind,y=values, fill=ind) )+
+  geom_boxplot()+ggtitle("Reads Mapped to Other Locus")+
+  scale_fill_manual(values = colorp)+
+  ylab("Percentage")+
+  theme(legend.position="none",axis.text.x = element_text(angle=45,hjust = 1,lineheight = 0.7),axis.title.x=element_blank())
+```
+
+![](Images_files/figure-markdown_github/per2-1.png)
+
+|               |   Min|  1st Qu|  Median|     Mean|  3rd Qu|    Max|
+|---------------|-----:|-------:|-------:|--------:|-------:|------:|
+| Best Counts   |  6.71|    8.67|   10.29|  12.1280|   15.76|  21.14|
+| Unique Counts |  0.00|    0.00|    0.00|   0.0636|    0.05|   0.71|
+| RepEnrich     |  9.62|   13.90|   14.81|  15.6496|   18.86|  23.43|
+| Telescope     |  0.00|    0.00|    0.05|   0.0620|    0.05|   0.57|
+| TEtranscript  |  9.43|   20.00|   26.52|  27.2600|   32.67|  44.52|
+| RSEM          |  7.95|   10.57|   12.19|  12.6436|   14.10|  19.76|
+| SalmonTE      |  2.86|    4.76|    5.29|   5.5612|    6.52|   8.57|
 
 All reads can be divided in two categories, depending from where they come from, HML2 reads or non-TE reads. Those reads can then be correctly or incorrectly mapped,depending of the outcome of the counting method, leading to 4 different categories: a) reads map to HML2 correctly (True Positive) b) reads map to HML2 incorrectly (False Positive) c) reads not mapped correctly (True Negative) d) reads not mapped incorrectly (False Negative)
 
@@ -144,7 +199,7 @@ pres<-ggplot(data=forplt,aes(x=Recall,y=Presicion, colour=Counting))+
   geom_point(alpha=0.5, size=1.5)+
   scale_color_manual(values=colorp)+
   geom_point(data=forplt2,aes(x=Recall,y=Presicion),shape=8, size=4,show.legend=FALSE)+
-  guides(colour=guide_legend(nrow=2, byrow = T ,override.aes = list(size=2, shape=8)))+
+  guides(colour=guide_legend(nrow=3, byrow = T ,override.aes = list(size=2, shape=8)))+
   theme(text = element_text(size=7),
         legend.position = "bottom",
         legend.title = element_blank(),
@@ -168,8 +223,8 @@ f1<-ggplot(F1_score, aes(x=F1, color=Counting, fill=Counting))+
   geom_density()+
   scale_color_manual(values=colorp)+
   scale_fill_manual(values=alpha(colorp,0.5))+
-  xlab("F1 score")+
-  guides(colour=guide_legend(nrow=2, byrow = T, keywidth = 0.5, keyheight = 0.5))+
+  xlab("F1 score")+ ylab("Density")+
+  guides(colour=guide_legend(nrow=3, byrow = T, keywidth = 0.5, keyheight = 0.5))+
   theme(text = element_text(size=7),
         legend.position = "bottom",
         legend.justific ="center",
